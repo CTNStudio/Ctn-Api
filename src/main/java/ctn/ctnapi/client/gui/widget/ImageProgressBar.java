@@ -15,8 +15,8 @@ import org.jetbrains.annotations.NotNull;
  */
 public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	private final String tooltipKey;
-	private int value;
-	private int maxValue;
+	private double value;
+	private double maxValue;
 	/**
 	 * 构造一个新的 ImageProgressBar 实例。
 	 *
@@ -31,7 +31,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 */
 	private ImageProgressBar(int x, int y,
 	                         int width, int height,
-	                         int value, int maxValue,
+	                         double value, double maxValue,
 	                         ResourceLocation texture, String tooltipKey) {
 		super(x, y, width, height, texture);
 		this.setValue(value);
@@ -49,7 +49,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 * @param energy  当前进度值
 	 * @param maxTick 最大进度值
 	 */
-	public void setValue(int energy, int maxTick) {
+	public void setValue(double energy, double maxTick) {
 		this.setValue(energy);
 		this.setMaxValue(maxTick);
 	}
@@ -59,7 +59,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 *
 	 * @return 当前进度值
 	 */
-	public int getValue() {
+	public double getValue() {
 		return this.value;
 	}
 
@@ -68,7 +68,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 *
 	 * @param value 新的进度值
 	 */
-	public void setValue(int value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 
@@ -77,7 +77,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 *
 	 * @return 最大进度值
 	 */
-	public int getMaxValue() {
+	public double getMaxValue() {
 		return maxValue;
 	}
 
@@ -86,7 +86,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 *
 	 * @param maxValue 新的最大进度值
 	 */
-	public void setMaxValue(int maxValue) {
+	public void setMaxValue(double maxValue) {
 		this.maxValue = maxValue;
 	}
 
@@ -115,7 +115,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 	 *
 	 * @return 渲染用的进度值
 	 */
-	public int getRenderValue() {
+	public double getRenderValue() {
 		return Math.min(Math.max(0, this.getValue()), this.getMaxValue());
 	}
 
@@ -168,14 +168,14 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 		 * @param texture    纹理资源位置
 		 * @param tooltipKey 工具提示翻译键
 		 */
-		public Horizontal(int x, int y, int width, int height, int value, int maxValue, ResourceLocation texture, String tooltipKey, boolean isToLeft) {
+		public Horizontal(int x, int y, int width, int height, double value, double maxValue, ResourceLocation texture, String tooltipKey, boolean isToLeft) {
 			super(x, y, width, height, value, maxValue, texture, tooltipKey);
 			this.isToLeft = isToLeft;
 		}
 
 		@Override
 		protected void renderTexture(@NotNull GuiGraphics guiGraphics) {
-			int value = (int) ((getRenderValue() / (float) this.getMaxValue()) * this.getWidth());
+			int value = (int) ((getRenderValue() / this.getMaxValue()) * this.getWidth());
 			int uWidth = isToLeft ? value : this.getWidth() - value;
 			int vHeight = getHeight();
 			int xPosition = isToLeft ? 0 : uWidth;
@@ -211,7 +211,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 		 * @param texture    纹理资源位置
 		 * @param tooltipKey 工具提示翻译键
 		 */
-		public Vertical(int x, int y, int width, int height, int value, int maxValue, ResourceLocation texture, String tooltipKey, boolean isToTop) {
+		public Vertical(int x, int y, int width, int height, double value, double maxValue, ResourceLocation texture, String tooltipKey, boolean isToTop) {
 			super(x, y, width, height, value, maxValue, texture, tooltipKey);
 			this.isToTop = isToTop;
 		}
@@ -219,7 +219,7 @@ public abstract class ImageProgressBar extends ImageWidget.Sprite {
 		@Override
 		protected void renderTexture(@NotNull GuiGraphics guiGraphics) {
 			int uWidth = getWidth();
-			int value = (int) ((getRenderValue() / (float) this.getMaxValue()) * this.getHeight());
+			int value = (int) ((getRenderValue() / this.getMaxValue()) * this.getHeight());
 			int vHeight = isToTop ? value : this.getHeight() - value;
 			int xPosition = 0;
 			int yPosition = isToTop ? getHeight() - vHeight : 0;
